@@ -567,3 +567,60 @@ input[type="checkbox"] { width: 16px; height: 16px; padding: 0; }
   font-weight: 600;
 }
 .edit-banner a { color: var(--accent); text-decoration: none; font-weight: 700; white-space: nowrap; }
+
+/* ---------- Beállítások / Adatbázis ---------- */
+.logo-row { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+.logo-preview {
+  width: 220px;
+  height: 90px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: #fbfcfd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.file-btn { cursor: pointer; }
+
+.card summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--ink);
+  list-style-position: inside;
+}
+.card summary .muted { text-transform: none; font-weight: 500; letter-spacing: 0; margin-left: 6px; }
+
+table.edit-table tr.click { cursor: pointer; }
+table.edit-table tr.click:hover td { background: var(--accent-soft); }
+.plate { letter-spacing: 0.5px; font-size: 14px; }
+
+.panel-inner { display: flex; flex-direction: column; height: 100%; }
+.v-info { display: flex; flex-direction: column; }
+.v-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+}
+.v-row span { color: var(--muted); }
+.v-row strong { text-align: right; }
+.hist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.hist-item {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  background: #fbfcfd;
+}
+.hist-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12.5px; }
+.badge-status { background: #e8eef5; color: var(--ink-soft); }
+.hist-work { font-size: 13px; margin-top: 6px; white-space: pre-wrap; }
+.hist-parts { font-size: 12px; color: var(--ink-soft); margin-top: 5px; }
+.hist-foot { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+.hist-links a { color: var(--accent); font-weight: 700; text-decoration: none; margin-left: 10px; }

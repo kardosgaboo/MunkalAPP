@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Beállítások</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">munkal<span class="accent">APP</span></span>
+    <span class="brand-sub">Digitális munkalap autószervizeknek</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="topnav">
+      <a href="/board.html">Műhely tábla</a>
+      <a href="/index.html">Új munkalap</a>
+      <a href="/history.html">Korábbi munkalapok</a>
+      <a href="/vehicles.html">Adatbázis</a>
+      <a href="/settings.html" class="active">Beállítások</a>
+    </nav>
+    <span id="current-user" class="current-user"></span>
+    <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <form id="settings-form">
+
+    <section class="card">
+      <h2>Szerviz adatai</h2>
+      <p class="muted" style="margin-top:0">Egyszer add meg, minden új munkalapra és PDF-re automatikusan rákerül.</p>
+      <div class="grid grid-2">
+        <label>Cégnév
+          <input type="text" name="szerviz.nev" placeholder="Pl. Gyors-Szerviz Kft." />
+        </label>
+        <label>Adószám
+          <input type="text" name="szerviz.adoszam" placeholder="12345678-1-42" />
+        </label>
+        <label>Cím
+          <input type="text" name="szerviz.cim" placeholder="4024 Debrecen, Fő utca 1." />
+        </label>
+        <label>Telefon
+          <input type="text" name="szerviz.telefon" placeholder="+36 30 123 4567" />
+        </label>
+        <label>E-mail
+          <input type="email" name="szerviz.email" placeholder="info@szerviz.hu" />
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Logó</h2>
+      <div class="logo-row">
+        <div class="logo-preview" id="logo-preview"><span class="muted">Nincs logó</span></div>
+        <div class="logo-actions">
+          <label class="btn-secondary file-btn">Logó kiválasztása
+            <input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp" hidden />
+          </label>
+          <button type="button" class="btn-secondary" id="logo-remove" style="display:none">Logó törlése</button>
+          <p class="muted" style="margin:8px 0 0">PNG, JPG vagy WebP. Átlátszó hátterű PNG a legszebb a PDF-en.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Alapértelmezések</h2>
+      <div class="grid grid-2">
+        <label>Óradíj (Ft / óra)
+          <input type="number" name="oradij" min="0" step="100" placeholder="Pl. 12000" />
+        </label>
+      </div>
+      <label class="mt">Garancia feltételek (a PDF alján)
+        <textarea name="garanciaSzoveg" rows="3" placeholder="Ha üresen hagyod, az alapértelmezett szöveg jelenik meg."></textarea>
+      </label>
+    </section>
+
+    <p class="muted">Az új munkalapok ezekkel az adatokkal indulnak. A már elkészült munkalapok szerviz-adatai nem változnak (a logó viszont mindig az aktuális).</p>
+
+    <div class="actions">
+      <span id="status-msg" class="status-msg"></span>
+      <button type="submit" class="btn-primary" id="save-btn">Beállítások mentése</button>
+    </div>
+
+  </form>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/settings.js"></script>
+</body>
+</html>

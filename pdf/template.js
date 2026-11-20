@@ -119,6 +119,8 @@ function generateWorkOrderHTML(wo) {
     border-bottom: 2px solid #0f172a;
     margin-bottom: 20px;
   }
+  .brand-block { display: flex; align-items: center; gap: 14px; }
+  .logo { max-height: 52px; max-width: 160px; object-fit: contain; }
   .company-name {
     font-size: 19px;
     font-weight: 700;
@@ -323,12 +325,15 @@ function generateWorkOrderHTML(wo) {
   <div class="page">
 
     <div class="header">
-      <div>
+      <div class="brand-block">
+        ${wo.logo ? `<img class="logo" src="${escapeHtml(wo.logo)}" alt="" />` : ''}
+        <div>
         <p class="company-name">${escapeHtml(szerviz.nev) || 'Autószerviz'}</p>
         <div class="company-meta">
           ${escapeHtml(szerviz.cim) || ''}<br/>
           ${szerviz.adoszam ? 'Adószám: ' + escapeHtml(szerviz.adoszam) + '<br/>' : ''}
           ${szerviz.telefon ? 'Tel: ' + escapeHtml(szerviz.telefon) + ' ' : ''}${szerviz.email ? '· ' + escapeHtml(szerviz.email) : ''}
+        </div>
         </div>
       </div>
       <div class="doc-heading">

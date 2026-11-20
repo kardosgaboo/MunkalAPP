@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Adatbázis</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">munkal<span class="accent">APP</span></span>
+    <span class="brand-sub">Digitális munkalap autószervizeknek</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="topnav">
+      <a href="/board.html">Műhely tábla</a>
+      <a href="/index.html">Új munkalap</a>
+      <a href="/history.html">Korábbi munkalapok</a>
+      <a href="/vehicles.html" class="active">Adatbázis</a>
+      <a href="/settings.html">Beállítások</a>
+    </nav>
+    <span id="current-user" class="current-user"></span>
+    <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
+  </div>
+</header>
+
+<main class="wrap wrap-wide">
+  <div class="board-bar">
+    <div>
+      <h1 class="board-title">Adatbázis</h1>
+      <div id="db-sub" class="muted"></div>
+    </div>
+    <div class="board-tools">
+      <input type="search" id="plate-search" placeholder="Rendszám keresése (pl. ABC-123)..." autocomplete="off" autofocus />
+    </div>
+  </div>
+
+  <section class="card">
+    <div class="table-scroll">
+      <table class="edit-table" id="vehicle-table">
+        <thead>
+          <tr>
+            <th>Rendszám</th>
+            <th>Autó</th>
+            <th>Ügyfél</th>
+            <th class="w100">Munkalapok</th>
+            <th class="w100">Utolsó javítás</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="empty-msg" class="muted" style="display:none"></p>
+  </section>
+</main>
+
+<div id="panel-backdrop" class="panel-backdrop"></div>
+<aside id="panel" class="panel" aria-hidden="true">
+  <div class="panel-inner" id="vehicle-detail"></div>
+</aside>
+
+<script src="/js/auth.js"></script>
+<script src="/js/vehicles.js"></script>
+</body>
+</html>

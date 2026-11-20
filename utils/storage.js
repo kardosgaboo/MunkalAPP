@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const appSettings = require('./settings');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'workorders.json');
@@ -158,15 +159,16 @@ function listBoard(owner) {
     .map(boardView);
 }
 
-// Gyors "Új autó" felvétel: a szerviz adatait az előző munkalapról átvesszük
+// Gyors "Új autó" felvétel: a szerviz adatait a Beállításokból veszi (ennek hiányában az előző munkalapról)
 function createCard(data, owner) {
   const last = readAll()
     .filter((w) => w.owner === owner && w.szerviz && w.szerviz.nev)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
+  const st = appSettings.get(owner);
   const record = {
-    szerviz: last ? last.szerviz : {},
-    garanciaSzoveg: last ? last.garanciaSzoveg : undefined,
+    szerviz: st.szerviz.nev ? st.szerviz : last ? last.szerviz : {},
+    garanciaSzoveg: st.garanciaSzoveg || (last ? last.garanciaSzoveg : undefined),
     ugyfel: { nev: str(data.ugyfelNev, 200), telefon: str(data.ugyfelTelefon, 100) },
     gepjarmu: { rendszam: str(data.rendszam, 40), marka: str(data.marka, 100), tipus: str(data.tipus, 100) },
     datumok: {

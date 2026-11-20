@@ -18,6 +18,8 @@
       <a href="/board.html">Műhely tábla</a>
       <a href="/index.html" class="active">Új munkalap</a>
       <a href="/history.html">Korábbi munkalapok</a>
+      <a href="/vehicles.html">Adatbázis</a>
+      <a href="/settings.html">Beállítások</a>
     </nav>
     <span id="current-user" class="current-user"></span>
     <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
@@ -27,6 +29,11 @@
 <main class="wrap">
   <form id="workorder-form">
 
+    <div id="settings-warning" class="edit-banner" style="display:none">
+      <span>Még nincs kitöltve a szerviz neve, címe és logója.</span>
+      <a href="/settings.html">Beállítások kitöltése →</a>
+    </div>
+
     <div id="edit-banner" class="edit-banner" style="display:none">
       <span id="edit-banner-text"></span>
       <a href="/board.html">← Vissza a műhely táblára</a>
@@ -34,10 +41,11 @@
 
     <!-- SZERVIZ ADATAI -->
     <section class="card">
-      <h2>Szerviz adatai</h2>
-      <div class="grid grid-2">
+      <details id="szerviz-details">
+      <summary>Szerviz adatai <span class="muted">(a Beállításokból töltődik ki)</span></summary>
+      <div class="grid grid-2 mt">
         <label>Cégnév
-          <input type="text" name="szerviz.nev" placeholder="Pl. Gyors-Szerviz Kft." required />
+          <input type="text" name="szerviz.nev" placeholder="Pl. Gyors-Szerviz Kft." />
         </label>
         <label>Adószám
           <input type="text" name="szerviz.adoszam" placeholder="12345678-1-42" />
@@ -52,6 +60,7 @@
           <input type="email" name="szerviz.email" placeholder="info@szerviz.hu" />
         </label>
       </div>
+      </details>
     </section>
 
     <!-- ÜGYFÉL + DÁTUMOK -->

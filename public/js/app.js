@@ -5,6 +5,7 @@
   const statusMsg = document.getElementById('status-msg');
   const submitBtn = document.getElementById('submit-btn');
   const afaInput = document.getElementById('afa-input');
+  let defaultRate = 0; // a Beállításokban megadott óradíj
 
   function fmt(n) {
     const rounded = Math.round(n || 0);
@@ -30,7 +31,7 @@
     tr.innerHTML = `
       <td><input type="text" class="l-desc" placeholder="Pl. Fékbetét csere, első" /></td>
       <td><input type="number" class="l-hours" min="0" step="0.5" value="1" /></td>
-      <td><input type="number" class="l-rate" min="0" step="100" value="0" /></td>
+      <td><input type="number" class="l-rate" min="0" step="100" value="${defaultRate}" /></td>
       <td class="row-total l-total">0 Ft</td>
       <td><button type="button" class="btn-remove-row" title="Sor törlése">✕</button></td>
     `;
@@ -155,7 +156,66 @@
     }
   }
 
-  if (editId) loadExisting(editId);
+  // ---------- Új munkalap: Beállítások és (opcionálisan) autó előtöltése ----------
+  async function loadSettingsForNewForm() {
+    try {
+      const res = await fetch('/api/settings');
+      if (window.munkalappAuth && window.munkalappAuth.handleUnauthorized(res)) return;
+      const st = (await res.json()).settings || {};
+      const sz = st.szerviz || {};
+
+      ['nev', 'adoszam', 'cim', 'telefon', 'email'].forEach((k) => setByName('szerviz.' + k, sz[k] || ''));
+      if (st.garanciaSzoveg) setByName('garanciaSzoveg', st.garanciaSzoveg);
+
+      if (st.oradij) {
+        defaultRate = st.oradij;
+        laborBody.querySelectorAll('tr').forEach((tr) => {
+          const rate = tr.querySelector('.l-rate');
+          if (rate && (rate.value === '0' || rate.value === '') && !tr.querySelector('.l-desc').value) {
+            rate.value = st.oradij;
+          }
+        });
+        recalcAll();
+      }
+
+      if (!sz.nev) {
+        const warn = document.getElementById('settings-warning');
+        if (warn) warn.style.display = 'flex';
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function prefillFromVehicle(key) {
+    try {
+      const res = await fetch('/api/vehicles');
+      if (window.munkalappAuth && window.munkalappAuth.handleUnauthorized(res)) return;
+      const v = (await res.json()).find((x) => x.key === key);
+      if (!v) return;
+      setByName('gepjarmu.rendszam', v.rendszam);
+      setByName('gepjarmu.marka', v.marka);
+      setByName('gepjarmu.tipus', v.tipus);
+      setByName('gepjarmu.evjarat', v.evjarat);
+      setByName('gepjarmu.alvazszam', v.alvazszam);
+      setByName('gepjarmu.motorszam', v.motorszam);
+      setByName('gepjarmu.uzemanyag', v.uzemanyag);
+      setByName('gepjarmu.szin', v.szin);
+      setByName('ugyfel.nev', v.ugyfelNev);
+      setByName('ugyfel.telefon', v.ugyfelTelefon);
+      setByName('ugyfel.email', v.ugyfelEmail);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  if (editId) {
+    loadExisting(editId);
+  } else {
+    loadSettingsForNewForm();
+    const autoKey = new URLSearchParams(window.location.search).get('autokey');
+    if (autoKey) prefillFromVehicle(autoKey);
+  }
 
   function collectFormData() {
     const data = {};
