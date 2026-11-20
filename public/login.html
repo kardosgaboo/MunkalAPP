@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Bejelentkezés</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="login-body">
+
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-brand">munkal<span class="accent">APP</span></div>
+    <p class="login-sub">Digitális munkalap autószervizeknek</p>
+
+    <form id="login-form">
+      <label>Felhasználónév
+        <input type="text" name="username" autocomplete="username" required autofocus />
+      </label>
+      <label>Jelszó
+        <input type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <p id="login-error" class="status-msg error" style="display:none;"></p>
+      <button type="submit" class="btn-primary full">Bejelentkezés</button>
+    </form>
+  </div>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

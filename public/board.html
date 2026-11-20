@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Műhely tábla</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">munkal<span class="accent">APP</span></span>
+    <span class="brand-sub">Digitális munkalap autószervizeknek</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="topnav">
+      <a href="/board.html" class="active">Műhely tábla</a>
+      <a href="/index.html">Új munkalap</a>
+      <a href="/history.html">Korábbi munkalapok</a>
+    </nav>
+    <span id="current-user" class="current-user"></span>
+    <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
+  </div>
+</header>
+
+<main class="wrap wrap-wide">
+  <div class="board-bar">
+    <div>
+      <h1 class="board-title">Műhely tábla</h1>
+      <div id="board-sub" class="muted"></div>
+    </div>
+    <div class="board-tools">
+      <input type="search" id="search" placeholder="Keresés: rendszám, ügyfél, munkalapszám..." />
+      <select id="filter-mechanic">
+        <option value="">Összes szerelő</option>
+      </select>
+      <button type="button" class="btn-primary" id="new-card">+ Új autó</button>
+    </div>
+  </div>
+
+  <div id="board" class="board"></div>
+</main>
+
+<div id="panel-backdrop" class="panel-backdrop"></div>
+
+<aside id="panel" class="panel" aria-hidden="true">
+  <form id="card-form">
+    <div class="panel-head">
+      <h2 id="panel-title">Új autó</h2>
+      <button type="button" id="panel-close" class="btn-remove-row" title="Bezárás">✕</button>
+    </div>
+
+    <div class="panel-body">
+      <div class="grid grid-2">
+        <label><span class="label-text">Rendszám <span class="req">*</span></span>
+          <input type="text" name="rendszam" required placeholder="AA-BB-123" />
+        </label>
+        <label>Szerelő
+          <input type="text" name="szereloNev" />
+        </label>
+        <label>Márka
+          <input type="text" name="marka" placeholder="Pl. BMW" />
+        </label>
+        <label>Típus
+          <input type="text" name="tipus" placeholder="Pl. 320d" />
+        </label>
+        <label>Ügyfél neve
+          <input type="text" name="ugyfelNev" />
+        </label>
+        <label>Telefonszám
+          <input type="text" name="ugyfelTelefon" />
+        </label>
+      </div>
+
+      <label>Hiba / elvégzendő munka
+        <textarea name="panasz" rows="3" placeholder="Pl. olajcsere, fékellenőrzés"></textarea>
+      </label>
+
+      <div class="grid grid-2">
+        <label>Határidő
+          <input type="date" name="hatarido" />
+        </label>
+        <label class="edit-only">Státusz
+          <select name="status" id="status-select"></select>
+        </label>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" name="surgos" />
+        <span>Sürgős</span>
+      </label>
+
+      <div class="edit-only parts-wait">
+        <label class="check">
+          <input type="checkbox" name="alkatreszreVarAktiv" />
+          <span>⏸ Alkatrészre vár</span>
+        </label>
+        <input type="text" name="alkatreszreVarNev" placeholder="Hiányzó alkatrész neve" />
+      </div>
+
+      <div class="edit-only">
+        <a id="open-wo" class="btn-secondary" href="#">Munkalap megnyitása (alkatrészek, munkadíj, PDF) →</a>
+      </div>
+
+      <div class="edit-only log-box">
+        <h3>Előzmények</h3>
+        <ul id="log-list"></ul>
+      </div>
+    </div>
+
+    <div class="panel-foot">
+      <button type="button" id="close-card" class="btn-secondary edit-only">Átadva – lezárás</button>
+      <span id="panel-msg" class="status-msg"></span>
+      <button type="submit" class="btn-primary" id="panel-save">Mentés</button>
+    </div>
+  </form>
+</aside>
+
+<script src="/js/auth.js"></script>
+<script src="/js/board.js"></script>
+</body>
+</html>

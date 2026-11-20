@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Új munkalap</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">munkal<span class="accent">APP</span></span>
+    <span class="brand-sub">Digitális munkalap autószervizeknek</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="topnav">
+      <a href="/board.html">Műhely tábla</a>
+      <a href="/index.html" class="active">Új munkalap</a>
+      <a href="/history.html">Korábbi munkalapok</a>
+    </nav>
+    <span id="current-user" class="current-user"></span>
+    <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <form id="workorder-form">
+
+    <div id="edit-banner" class="edit-banner" style="display:none">
+      <span id="edit-banner-text"></span>
+      <a href="/board.html">← Vissza a műhely táblára</a>
+    </div>
+
+    <!-- SZERVIZ ADATAI -->
+    <section class="card">
+      <h2>Szerviz adatai</h2>
+      <div class="grid grid-2">
+        <label>Cégnév
+          <input type="text" name="szerviz.nev" placeholder="Pl. Gyors-Szerviz Kft." required />
+        </label>
+        <label>Adószám
+          <input type="text" name="szerviz.adoszam" placeholder="12345678-1-42" />
+        </label>
+        <label>Cím
+          <input type="text" name="szerviz.cim" placeholder="1234 Debrecen, Fő utca 1." />
+        </label>
+        <label>Telefon
+          <input type="text" name="szerviz.telefon" placeholder="+36 30 123 4567" />
+        </label>
+        <label>E-mail
+          <input type="email" name="szerviz.email" placeholder="info@szerviz.hu" />
+        </label>
+      </div>
+    </section>
+
+    <!-- ÜGYFÉL + DÁTUMOK -->
+    <section class="card">
+      <h2>Ügyfél adatai</h2>
+      <div class="grid grid-2">
+        <label><span class="label-text">Név <span class="req">*</span></span>
+          <input type="text" name="ugyfel.nev" required />
+        </label>
+        <label>Telefon
+          <input type="text" name="ugyfel.telefon" />
+        </label>
+        <label>Cím
+          <input type="text" name="ugyfel.cim" />
+        </label>
+        <label>E-mail
+          <input type="email" name="ugyfel.email" />
+        </label>
+        <label>Adószám / cégnév (ha céges)
+          <input type="text" name="ugyfel.adoszam" />
+        </label>
+      </div>
+      <div class="grid grid-3 mt">
+        <label>Felvétel dátuma
+          <input type="date" name="datumok.felvetel" />
+        </label>
+        <label>Munka kezdete
+          <input type="date" name="datumok.munkaKezdete" />
+        </label>
+        <label>Várható befejezés
+          <input type="date" name="datumok.varhatoBefejezes" />
+        </label>
+      </div>
+    </section>
+
+    <!-- GÉPJÁRMŰ ADATAI -->
+    <section class="card">
+      <h2>Gépjármű adatai</h2>
+      <div class="grid grid-3">
+        <label><span class="label-text">Rendszám <span class="req">*</span></span>
+          <input type="text" name="gepjarmu.rendszam" required placeholder="AA-BB-123" />
+        </label>
+        <label>Márka
+          <input type="text" name="gepjarmu.marka" placeholder="Pl. Volkswagen" />
+        </label>
+        <label>Típus
+          <input type="text" name="gepjarmu.tipus" placeholder="Pl. Golf VII" />
+        </label>
+        <label>Alvázszám (VIN)
+          <input type="text" name="gepjarmu.alvazszam" />
+        </label>
+        <label>Motorszám
+          <input type="text" name="gepjarmu.motorszam" />
+        </label>
+        <label>Évjárat
+          <input type="text" name="gepjarmu.evjarat" placeholder="2018" />
+        </label>
+        <label>Km óraállás
+          <input type="number" name="gepjarmu.kmora" min="0" />
+        </label>
+        <label>Üzemanyag
+          <select name="gepjarmu.uzemanyag">
+            <option value="">–</option>
+            <option>Benzin</option>
+            <option>Dízel</option>
+            <option>Hibrid</option>
+            <option>Elektromos</option>
+            <option>LPG/CNG</option>
+          </select>
+        </label>
+        <label>Szín
+          <input type="text" name="gepjarmu.szin" />
+        </label>
+      </div>
+    </section>
+
+    <!-- PANASZ / MUNKA -->
+    <section class="card">
+      <h2>Bejelentett hiba / ügyfél panasza</h2>
+      <label>
+        <textarea name="panasz" rows="3" placeholder="Az ügyfél által jelzett probléma leírása..."></textarea>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Diagnózis / elvégzett munka leírása</h2>
+      <label>
+        <textarea name="elvegzettMunka" rows="4" placeholder="Elvégzett vizsgálatok, javítások, beállítások..."></textarea>
+      </label>
+    </section>
+
+    <!-- ALKATRÉSZEK -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Felhasznált alkatrészek</h2>
+        <button type="button" class="btn-ghost" id="add-part">+ Sor hozzáadása</button>
+      </div>
+      <div class="table-scroll">
+        <table id="parts-table" class="edit-table">
+          <thead>
+            <tr>
+              <th>Megnevezés</th>
+              <th class="w90">Cikkszám</th>
+              <th class="w70">Menny.</th>
+              <th class="w100">Egységár (Ft)</th>
+              <th class="w100">Összesen</th>
+              <th class="w40"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MUNKADÍJ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Munkadíjak</h2>
+        <button type="button" class="btn-ghost" id="add-labor">+ Sor hozzáadása</button>
+      </div>
+      <div class="table-scroll">
+        <table id="labor-table" class="edit-table">
+          <thead>
+            <tr>
+              <th>Munka leírása</th>
+              <th class="w70">Idő (óra)</th>
+              <th class="w100">Óradíj (Ft)</th>
+              <th class="w100">Összesen</th>
+              <th class="w40"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ÖSSZESÍTÉS -->
+    <section class="card">
+      <h2>Összesítés</h2>
+      <div class="totals-box">
+        <div class="totals-row"><span>Alkatrészek összesen</span><strong id="sum-parts">0 Ft</strong></div>
+        <div class="totals-row"><span>Munkadíj összesen</span><strong id="sum-labor">0 Ft</strong></div>
+        <div class="totals-row"><span>Nettó összesen</span><strong id="sum-netto">0 Ft</strong></div>
+        <div class="totals-row">
+          <span>ÁFA
+            <input type="number" name="afaSzazalek" id="afa-input" value="27" min="0" max="100" class="inline-num" /> %
+          </span>
+          <strong id="sum-afa">0 Ft</strong>
+        </div>
+        <div class="totals-row grand"><span>Fizetendő végösszeg</span><strong id="sum-brutto">0 Ft</strong></div>
+      </div>
+      <div class="grid grid-2 mt">
+        <label>Fizetési mód
+          <select name="fizetesiMod">
+            <option>Készpénz</option>
+            <option>Bankkártya</option>
+            <option>Átutalás</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- MEGJEGYZÉS / GARANCIA / ALÁÍRÁS -->
+    <section class="card">
+      <h2>Megjegyzés</h2>
+      <textarea name="megjegyzes" rows="2" placeholder="Egyéb megjegyzés az ügyfél vagy a szerelő részére..."></textarea>
+    </section>
+
+    <section class="card">
+      <h2>Garancia feltételek</h2>
+      <textarea name="garanciaSzoveg" rows="3">A javításra a beépített alkatrészek gyártói garanciája, valamint a Polgári Törvénykönyv szerinti jogszabályi garancia érvényes. Az elvégzett munkára a szerviz szavatosságot vállal a hatályos jogszabályok szerint.</textarea>
+    </section>
+
+    <section class="card">
+      <h2>Aláírás adatai</h2>
+      <div class="grid grid-2">
+        <label>Szerelő neve
+          <input type="text" name="szereloNev" />
+        </label>
+        <label>Aláírás dátuma
+          <input type="date" name="alairasDatum" />
+        </label>
+      </div>
+    </section>
+
+    <div class="actions">
+      <span id="status-msg" class="status-msg"></span>
+      <button type="submit" class="btn-primary" id="submit-btn">Munkalap mentése és PDF létrehozása</button>
+    </div>
+
+  </form>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

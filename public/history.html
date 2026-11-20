@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>munkalAPP – Korábbi munkalapok</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">munkal<span class="accent">APP</span></span>
+    <span class="brand-sub">Digitális munkalap autószervizeknek</span>
+  </div>
+  <div class="topbar-right">
+    <nav class="topnav">
+      <a href="/board.html">Műhely tábla</a>
+      <a href="/index.html">Új munkalap</a>
+      <a href="/history.html" class="active">Korábbi munkalapok</a>
+    </nav>
+    <span id="current-user" class="current-user"></span>
+    <button id="logout-btn" class="btn-secondary" type="button">Kijelentkezés</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <h2>Korábbi munkalapok</h2>
+    <div class="table-scroll">
+      <table class="edit-table" id="history-table">
+        <thead>
+          <tr>
+            <th>Munkalapszám</th>
+            <th>Dátum</th>
+            <th>Ügyfél</th>
+            <th>Rendszám</th>
+            <th>Gépjármű</th>
+            <th class="w100"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="empty-msg" class="muted" style="display:none;">Még nincs mentett munkalap.</p>
+  </section>
+</main>
+
+<script src="/js/auth.js"></script>
+<script src="/js/history.js"></script>
+</body>
+</html>
