@@ -63,6 +63,14 @@ A **Műhely tábla** menüpont egy egyszerű Kanban nézet a műhelyben lévő a
 
 Minden bejelentkezett fiók csak a saját munkalapjait és kártyáit látja.
 
+## Beállítások
+
+A **Beállítások** menüpontban egyszer megadható a szerviz neve, adószáma, címe, telefonja, e-mailje, a **logó**, az alapértelmezett **óradíj** és a garancia szöveg. Az új munkalapok ezekkel töltődnek elő, a PDF fejlécébe pedig a logó is bekerül.
+
+## Adatbázis (autók)
+
+Az **Adatbázis** menüpont rendszámonként gyűjti az autókat (az `abc-123`, `ABC 123` és `ABC123` ugyanaz az autó). A rendszám-kereső gépelés közben szűr, a találatra kattintva megjelenik az autó adatai és a teljes javítási előzmény (dátum, elvégzett munka, alkatrészek, összeg, km), innen megnyithatók a munkalapok és a PDF-ek, vagy egy kattintással új munkalap indítható az autóra.
+
 ## Használat
 
 - **Új munkalap**: töltsd ki az ügyfél, gépjármű, hiba/panasz, elvégzett munka

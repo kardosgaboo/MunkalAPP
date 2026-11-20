@@ -7,6 +7,8 @@ const puppeteer = require('puppeteer');
 
 const storage = require('./utils/storage');
 const users = require('./utils/users');
+const appSettings = require('./utils/settings');
+const vehicles = require('./utils/vehicles');
 const { generateWorkOrderHTML } = require('./pdf/template');
 
 const app = express();
@@ -145,6 +147,34 @@ app.get('/history.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'history.html'));
 });
 
+app.get('/vehicles.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'vehicles.html'));
+});
+
+app.get('/settings.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'settings.html'));
+});
+
+// ---------- Szerviz-beállítások ----------
+
+app.get('/api/settings', (req, res) => {
+  res.json({ ok: true, settings: appSettings.get(me(req)) });
+});
+
+app.put('/api/settings', (req, res) => {
+  try {
+    res.json({ ok: true, settings: appSettings.save(me(req), req.body || {}) });
+  } catch (err) {
+    res.status(400).json({ ok: false, error: err.message });
+  }
+});
+
+// ---------- Autó-adatbázis (rendszámonként) ----------
+
+app.get('/api/vehicles', (req, res) => {
+  res.json(vehicles.listVehicles(me(req)));
+});
+
 app.get('/board.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'board.html'));
 });
@@ -225,13 +255,34 @@ app.get('/api/workorders/:id/pdf', async (req, res) => {
 
   let page;
   try {
-    const html = generateWorkOrderHTML(wo);
+    // A munkalapon rögzített szerviz-adatok az irányadók; ami hiányzik, azt a
+    // Beállításokból pótoljuk. A logó mindig az aktuális beállításból jön.
+    const st = appSettings.get(me(req));
+    const szerviz = {};
+    ['nev', 'adoszam', 'cim', 'telefon', 'email'].forEach((k) => {
+      szerviz[k] = (wo.szerviz && wo.szerviz[k]) || st.szerviz[k];
+    });
+    const html = generateWorkOrderHTML(
+      Object.assign({}, wo, {
+        szerviz,
+        garanciaSzoveg: wo.garanciaSzoveg || st.garanciaSzoveg,
+        logo: st.logo,
+      })
+    );
 
     const browser = await getBrowser();
     page = await browser.newPage();
     // A sablonban nincs külső erőforrás (kép, webfont, külön CSS-fájl),
     // ezért a 'domcontentloaded' elég, és nem akad el hálózati várakozáson.
     await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    // A logó (data URI) betöltését megvárjuk, mielőtt PDF készül
+    await page.evaluate(() =>
+      Promise.all(
+        Array.from(document.images).map((img) =>
+          img.complete ? null : new Promise((r) => { img.onload = img.onerror = r; })
+        )
+      )
+    );
 
     const pdfBuffer = await page.pdf({
       format: 'A4',
